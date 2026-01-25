@@ -1,328 +1,203 @@
-📘 Teaching Assistant Chatbot (Multimodal RAG)
+# 📚 Teaching Assistant Chatbot (Multimodal RAG)
+
+A **multimodal Retrieval-Augmented Generation (RAG) chatbot** that helps students ask natural-language questions and receive accurate, textbook-grounded answers from **large, image-rich academic PDFs**.
 
-A local, multimodal Retrieval-Augmented Generation (RAG) chatbot that acts as a school teaching assistant, capable of answering questions from large textbook PDFs containing text, tables, and images—fully offline using Ollama + LLaVA.
+---
 
-📑 Table of Contents
+## 📑 Table of Contents
 
-Overview
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Architecture & Design](#architecture--design)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation & Setup](#installation--setup)
+- [Usage](#usage)
+- [Workflow / Pipeline Explanation](#workflow--pipeline-explanation)
+- [Configuration](#configuration)
+- [Limitations & Known Issues](#limitations--known-issues)
+- [Future Improvements](#future-improvements)
+- [Why This Design?](#why-this-design)
+- [Contributing](#contributing)
+- [License](#license)
 
-Key Features
+---
 
-Architecture & Design
+## 🧠 Overview
 
-Tech Stack
+The **Teaching Assistant Chatbot** is an AI-powered assistant designed to help students query large educational textbooks in a **reliable and explainable** way.
 
-Project Structure
+### Real-world Use Case
 
-Installation & Setup
+- Students asking conceptual or visual questions from **school or college textbooks**
+- Teachers validating answers against source material
+- Self-study from scanned PDFs containing **text, tables, and images**
 
-Usage
+### Why This Project Is Non-Trivial
 
-Workflow / Pipeline Explanation
+- Handles **2 large PDFs (800+ pages total)**
+- Supports **multimodal data** (text, tables, images)
+- Optimized for **memory-efficient ingestion**
+- Uses **local LLMs (Ollama)** → no external API dependency
+- Designed to scale beyond demo-size RAG systems
 
-Configuration
+This is **not** a toy RAG — it is built for real academic data.
 
-Limitations & Known Issues
+---
 
-Future Improvements
+## ✨ Key Features
 
-Why This Design?
+- 🔍 **Multimodal RAG**
+  - Text, tables, and image-aware retrieval
+- 🧠 **Local LLM Inference**
+  - Uses Ollama (`llava:7b`) for privacy and cost efficiency
+- 📚 **Large PDF Support**
+  - Efficient ingestion of hundreds of pages
+- 🗂️ **Vector Store Persistence**
+  - ChromaDB with disk-backed storage
+- 🧩 **Modular Design**
+  - Clear separation of ingestion, embeddings, prompts, and RAG logic
+- ⚡ **Optimized Memory Usage**
+  - Batch processing during ingestion
+- 🖥️ **Simple UI**
+  - Streamlit-based frontend for students
 
-Contributing
+---
 
-License
+## 🏗️ Architecture & Design
 
-📖 Overview
+### High-Level Flow
 
-This project is a Teaching Assistant Chatbot built using a multimodal RAG architecture.
+1. **PDF Ingestion**
+   - PDFs are partitioned using `unstructured`
+   - Content is extracted as:
+     - Text blocks
+     - Tables
+     - Images
 
-It allows students to ask questions from real school textbooks (PDFs with 800+ pages) and receive accurate answers derived from:
+2. **Summarization Layer**
+   - Each modality is summarized separately
+   - Reduces token size while preserving meaning
 
-Text explanations
+3. **Embedding & Storage**
+   - Summaries are embedded using `OllamaEmbeddings`
+   - Stored in **ChromaDB** with metadata (`type`, `doc_id`)
 
-Tables
+4. **Query Time (RAG)**
+   - User asks a question via Streamlit
+   - Relevant chunks are retrieved
+   - Separate reasoning for:
+     - Text + Tables
+     - Images
+   - Final answer is merged and returned
 
-Diagrams and images
+### Why This Architecture?
 
-Real-World Use Case
+- Avoids loading entire PDFs into memory
+- Allows modality-specific reasoning
+- Keeps LLM prompts clean and controllable
+- Easy to extend with new document types
 
-Digital classroom assistant
+---
 
-Self-study companion for students
+## 🧰 Tech Stack
 
-Offline AI tutor for schools with limited internet access
+### Backend / Core
 
-Why This Is Non-Trivial
+- Python 3.10+
+- LangChain
 
-Handles very large PDFs
+### AI / ML
 
-Supports multimodal reasoning
+- Ollama (`llava:7b`)
+- OllamaEmbeddings
+- Multimodal RAG
 
-Runs entirely locally (no APIs)
+### Data Processing
 
-Memory-efficient ingestion and retrieval
+- unstructured (PDF partitioning)
+- Pillow (image handling)
 
-✨ Key Features
+### Vector Store
 
-📚 Supports multiple large PDFs
+- ChromaDB
 
-🧠 Multimodal RAG (Text + Tables + Images)
+### Frontend
 
-⚡ Memory-efficient, page-wise ingestion
+- Streamlit
 
-🗂 Persistent vector store (ChromaDB)
+### Tools & Utilities
 
-🔍 Context-aware retrieval (Top-K)
+- UUID
+- Base64 encoding
+- OS / pathlib
 
-🖼 Image reasoning via LLaVA
+---
 
-🔐 Fully offline & privacy-safe
+## 📁 Project Structure
 
-🧩 Modular, production-ready design
-
-🏗 Architecture & Design
-System Flow
-
-PDFs are loaded page-by-page
-
-Content is split into:
-
-Text
-
-Tables
-
-Images
-
-Each modality is summarized
-
-Summaries are embedded
-
-Vectors are stored in ChromaDB
-
-User query retrieves relevant chunks
-
-LLaVA reasons over:
-
-Text & tables
-
-Images (if relevant)
-
-Final answer is generated
-
-Why This Architecture?
-
-Avoids loading entire PDFs into memory
-
-Summarization reduces token cost
-
-Multimodal RAG reflects real textbooks
-
-Local-first for cost and privacy
-
-🧰 Tech Stack
-Backend
-
-Python
-
-LangChain
-
-AI / ML
-
-Ollama
-
-LLaVA (7B)
-
-OllamaEmbeddings
-
-Document Processing
-
-Unstructured (partition_pdf)
-
-Vector Store
-
-ChromaDB
-
-Frontend
-
-Streamlit
-
-Tools
-
-dotenv
-
-uuid
-
-base64
-
-📂 Project Structure
-.
-├── ingestion.py          # PDF loading, parsing & summarization
-├── embeddings.py         # Embedding + vector store creation
-├── rag.py                # Multimodal RAG logic
-├── prompts.py            # Centralized prompt templates
-├── streamlit_app.py      # UI for chatbot
+```text
+teaching-assistant-chatbot/
+│
+├── ingestion.py        # PDF loading, partitioning, summarization
+├── embeddings.py       # Calls ingestion, creates embeddings & vector store
+├── rag_bot.py          # Multimodal RAG logic (text + image reasoning)
+├── prompts.py          # Centralized prompt templates
+├── streamlit_app.py    # UI for student interaction
+│
 ├── data/
-│   ├── book1.pdf
-│   ├── book2.pdf
-│   └── images/           # Extracted images
-├── chroma_db/            # Persistent vector store
+│   ├── pdfs/            # Input PDFs
+│   └── images/          # Extracted images
+│
+├── chroma_db/           # Persistent vector store
 ├── requirements.txt
 └── README.md
 
-⚙️ Installation & Setup
-Prerequisites
+## ⚙️ Installation & Setup
 
-Python 3.10+
+### Prerequisites
 
-Ollama installed locally
+Ensure the following are installed on your system:
 
-Minimum 8 GB RAM (16 GB recommended)
+- **Python 3.10+**
+- **Ollama** (local LLM runtime)
+- Minimum **8 GB RAM** (16 GB recommended for large PDFs)
+- Git
 
-Git
+---
 
-Step 1️⃣ Clone the Repository
-git clone https://github.com/your-org/teaching-assistant-chatbot.git
+### Step 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/your-username/teaching-assistant-chatbot.git
 cd teaching-assistant-chatbot
 
-Step 2️⃣ Create & Activate Virtual Environment
+### Step 2️⃣ Create and Activate Virtual Environment
+
+Create a virtual environment to isolate dependencies:
+
+```bash
 python -m venv venv
 
+### 4️⃣ Install Ollama
 
-Linux / macOS
+**Download and install Ollama** (required for the local `llava:7b` model):
 
-source venv/bin/activate
+- Visit [Ollama official website](https://ollama.com) and follow the installation instructions for your OS.
 
+**Verify installation:**
 
-Windows
+```bash
+ollama --version
 
-venv\Scripts\activate
+### 5️⃣ Pull LLaVA Model
 
-Step 3️⃣ Install Dependencies
-pip install -r requirements.txt
+**Download the multimodal LLaVA model (`llava:7b`) for text, table, and image reasoning:**
 
-
-No API keys required.
-
-Step 4️⃣ Install Ollama
-
-Download and install from:
-https://ollama.com
-
-Step 5️⃣ Pull Required Model
+```bash
 ollama pull llava:7b
 
-▶️ Usage
-Step 1️⃣ Add PDFs
+### 6️⃣ Add PDFs
 
-Place PDFs in:
+**Place your textbooks (PDF files) in the `data/` directory:**
 
-data/
- ├── book1.pdf
- └── book2.pdf
-
-Step 2️⃣ Run Embedding Pipeline
-python embeddings.py
-
-
-This step:
-
-Extracts content
-
-Summarizes
-
-Embeds
-
-Stores vectors permanently
-
-Run only once unless PDFs change.
-
-Step 3️⃣ Start the Chatbot UI
-streamlit run streamlit_app.py
-
-
-Open browser:
-
-http://localhost:8501
-
-Sample Input
-Explain the process of photosynthesis using the diagram.
-
-Sample Output
-
-Clear explanation from textbook text
-
-Additional insights from diagrams (if available)
-
-🔄 Workflow / Pipeline Explanation
-PDFs
- ↓
-Page-wise Loading
- ↓
-Text / Table / Image Separation
- ↓
-Summarization
- ↓
-Embedding
- ↓
-ChromaDB
- ↓
-Retriever
- ↓
-Multimodal Prompting
- ↓
-LLaVA Reasoning
- ↓
-Answer
-
-🔧 Configuration
-Configurable Values
-
-TOP_K – number of retrieved chunks
-
-COLLECTION_NAME
-
-VECTOR_DIR
-
-Ollama model (llava:7b)
-
-Defined directly in code.
-
-⚠️ Limitations & Known Issues
-
-OCR quality depends on PDF scans
-
-Image reasoning accuracy varies
-
-No page citation yet
-
-Initial ingestion may take time
-
-🚀 Future Improvements
-
-Source/page references
-
-Hybrid retrieval (BM25 + Vector)
-
-Docker support
-
-Advanced OCR
-
-Chat history memory
-
-Better UI annotations
-
-🤔 Why This Design?
-Decision	Reason
-Local LLM	Privacy & zero cost
-Summarize before embedding	Performance & recall
-Multimodal RAG	Real textbook understanding
-ChromaDB	Lightweight & persistent
-🤝 Contributing
-
-Fork the repo
-
-Create a feature branch
-
-Commit clean code
-
-Open a Pull Request
