@@ -152,7 +152,7 @@ teaching-assistant-chatbot/
 ├── chroma_db/           # Persistent vector store
 ├── requirements.txt
 └── README.md
-
+```
 
 ##⚙️ Installation & Setup
 -1️⃣ Clone Repository
