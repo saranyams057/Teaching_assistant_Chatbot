@@ -165,51 +165,59 @@ teaching-assistant-chatbot/
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/teaching-assistant-chatbot.git
+git clone https://github.com/saranyams057/Teaching_assistant_Chatbot/tree/master
 cd teaching-assistant-chatbot
 ```
 
-# Create virtual environment
+### Create virtual environment
+```bash
 python -m venv venv
-# Activate virtual environment
-# macOS/Linux:
+```
+### Activate virtual environment
+### macOS/Linux:
+```bash
 source venv/bin/activate
-# Windows:
+```
+### Windows:
+```bash
 venv\Scripts\activate
+```
 
-# Install dependencies
+### Install dependencies
+```bash
 pip install -r requirements.txt
+```
 
-# Ollama Setup
+### Ollama Setup
+```bash
 ollama pull llava:7b
+```
 
-# Clone Repository
-git clone <repo_url>
-cd teaching-assistant-chatbot
-
-
-# Environment Variables
+### Environment Variables
 
 - Create a .env file:
 
 - PDF_PATHS=data/book1.pdf,data/book2.pdf
 - VECTOR_DIR=chroma_db
 
-#  Run Embedding Pipeline (One-Time)
+###  Run Embedding Pipeline (One-Time)
+```bash
 - python embeddings.py
+```
 
-
-# ⚡ Loads PDFs, summarizes text/tables/images, creates embeddings, stores in ChromaDB.
+### ⚡ Loads PDFs, summarizes text/tables/images, creates embeddings, stores in ChromaDB.
 - ✅ Run only once unless new PDFs are added.
 
-#  Launch Streamlit UI
+###  Launch Streamlit UI
+```bash
 - streamlit run streamlit_app.py
+```
 
 
-# 🌐 Open your browser at http://localhost:8501
+### 🌐 Open your browser at http://localhost:8501
 - 📝 Ask questions based on PDFs and get text + image answers.
 
-#  Querying / Using the RAG System
+###  Querying / Using the RAG System
 
 - Type your question in the Streamlit input box
 
@@ -219,14 +227,14 @@ cd teaching-assistant-chatbot
 
 - Response may include:
 
-Text explanation
+- - Text explanation
 
-Image references
+- - Image references
 
-### 💡 Example Question:
+## 💡 Example Question:
 - “Explain photosynthesis based on the textbook content.”
 
-### 🔄 Workflow / Pipeline Explanation
+## 🔄 Workflow / Pipeline Explanation
 
 - PDF Ingestion
 
@@ -250,7 +258,7 @@ Image references
 
 - Merge final answer
 
-### ⚡ Optimizations:
+## ⚡ Optimizations:
 
 - Batch processing prevents memory overflow
 
@@ -285,7 +293,7 @@ rag_bot.py → Multimodal RAG logic for querying
 
 - Advanced image reasoning with OCR
 
-### 💡 Why This Design?
+## 💡 Why This Design?
 
 - Batch-wise PDF ingestion avoids memory issues
 
@@ -295,7 +303,7 @@ rag_bot.py → Multimodal RAG logic for querying
 
 - ChromaDB persistence allows instant re-query
 
-### 🤝 Contributing
+## 🤝 Contributing
 
 Fork the repo
 
