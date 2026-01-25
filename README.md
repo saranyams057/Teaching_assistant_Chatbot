@@ -154,97 +154,116 @@ teaching-assistant-chatbot/
 └── README.md
 ```
 
-##⚙️ Installation & Setup
--1️⃣ Clone Repository
--git clone <repo_url>
--cd teaching-assistant-chatbot
+## ⚙️ Installation & Setup
 
-2️⃣ Create and Activate Virtual Environment
+### Prerequisites
+- Python 3.10+
+- Ollama installed locally
+- At least 8GB RAM (16GB recommended)
+
+### Step-by-Step Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-org/teaching-assistant-chatbot.git
+cd teaching-assistant-chatbot
+```
+
+# Create virtual environment
 python -m venv venv
-# Activate on Windows
-venv\Scripts\activate
-# Activate on macOS/Linux
+# Activate virtual environment
+# macOS/Linux:
 source venv/bin/activate
+# Windows:
+venv\Scripts\activate
 
-3️⃣ Install Dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-4️⃣ Environment Variables
+# Ollama Setup
+ollama pull llava:7b
 
-Create a .env file:
-
-PDF_PATHS=data/book1.pdf,data/book2.pdf
-VECTOR_DIR=chroma_db
-
-7️⃣ Run Embedding Pipeline (One-Time)
-python embeddings.py
+# Clone Repository
+git clone <repo_url>
+cd teaching-assistant-chatbot
 
 
-⚡ Loads PDFs, summarizes text/tables/images, creates embeddings, stores in ChromaDB.
-✅ Run only once unless new PDFs are added.
+# Environment Variables
 
-8️⃣ Launch Streamlit UI
-streamlit run streamlit_app.py
+- Create a .env file:
+
+- PDF_PATHS=data/book1.pdf,data/book2.pdf
+- VECTOR_DIR=chroma_db
+
+#  Run Embedding Pipeline (One-Time)
+- python embeddings.py
 
 
-🌐 Open your browser at http://localhost:8501
-📝 Ask questions based on PDFs and get text + image answers.
+# ⚡ Loads PDFs, summarizes text/tables/images, creates embeddings, stores in ChromaDB.
+- ✅ Run only once unless new PDFs are added.
 
-9️⃣ Querying / Using the RAG System
+#  Launch Streamlit UI
+- streamlit run streamlit_app.py
 
-Type your question in the Streamlit input box
 
-System retrieves relevant chunks from ChromaDB
+# 🌐 Open your browser at http://localhost:8501
+- 📝 Ask questions based on PDFs and get text + image answers.
 
-Ollama LLM generates an answer using multimodal reasoning
+#  Querying / Using the RAG System
 
-Response may include:
+- Type your question in the Streamlit input box
+
+- System retrieves relevant chunks from ChromaDB
+
+- Ollama LLM generates an answer using multimodal reasoning
+
+- Response may include:
 
 Text explanation
 
 Image references
 
-💡 Example Question:
-“Explain photosynthesis based on the textbook content.”
+### 💡 Example Question:
+- “Explain photosynthesis based on the textbook content.”
 
-🔄 Workflow / Pipeline Explanation
+### 🔄 Workflow / Pipeline Explanation
 
-PDF Ingestion
+- PDF Ingestion
 
-Batch-wise loading of PDFs
+- Batch-wise loading of PDFs
 
-Extract text, tables, images
+- Extract text, tables, images
 
-Summarization Layer
+- Summarization Layer
 
-Reduces token size while preserving meaning
+- Reduces token size while preserving meaning
 
-Embedding & Storage
+- Embedding & Storage
 
-Embeddings stored with metadata in ChromaDB
+- Embeddings stored with metadata in ChromaDB
 
-Query-Time RAG
+- Query-Time RAG
 
-Retrieve top-K chunks
+- Retrieve top-K chunks
 
-Separate reasoning for text/tables and images
+- Separate reasoning for text/tables and images
 
-Merge final answer
+- Merge final answer
 
-⚡ Optimizations:
+### ⚡ Optimizations:
 
-Batch processing prevents memory overflow
+- Batch processing prevents memory overflow
 
-Cached summaries avoid repeated work
+- Cached summaries avoid repeated work
 
-Local LLM inference is fast and private
+- Local LLM inference is fast and private
 
-⚙️ Configuration
+## ⚙️ Configuration
 
-Environment Variables:
+- Environment Variables:
 
-PDF_PATHS=data/book1.pdf,data/book2.pdf
-VECTOR_DIR=chroma_db
+- PDF_PATHS=data/book1.pdf,data/book2.pdf
+- VECTOR_DIR=chroma_db
 
 
 Config Files:
@@ -255,37 +274,28 @@ embeddings.py → Ingestion, summarization, embedding pipeline
 
 rag_bot.py → Multimodal RAG logic for querying
 
-⚠️ Limitations & Known Issues
 
-Large PDFs require sufficient RAM (8GB+)
+## 🚀 Future Improvements
 
-Ollama (llava:7b) must be downloaded locally
+- Support for DOCX, EPUB textbooks
 
-Image processing may be slow for large PDFs
+- GPU acceleration for faster embeddings and RAG inference
 
-Only PDF input is supported currently
+- Multi-language support
 
-🚀 Future Improvements
+- Advanced image reasoning with OCR
 
-Support for DOCX, EPUB textbooks
+### 💡 Why This Design?
 
-GPU acceleration for faster embeddings and RAG inference
+- Batch-wise PDF ingestion avoids memory issues
 
-Multi-language support
+- Modality-specific reasoning keeps prompts clean
 
-Advanced image reasoning with OCR
+- Local LLM ensures privacy and no API costs
 
-💡 Why This Design?
+- ChromaDB persistence allows instant re-query
 
-Batch-wise PDF ingestion avoids memory issues
-
-Modality-specific reasoning keeps prompts clean
-
-Local LLM ensures privacy and no API costs
-
-ChromaDB persistence allows instant re-query
-
-🤝 Contributing
+### 🤝 Contributing
 
 Fork the repo
 
