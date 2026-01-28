@@ -19,7 +19,6 @@ A **multimodal Retrieval-Augmented Generation (RAG) chatbot** that helps student
 - [Future Improvements](#future-improvements)
 - [Why This Design?](#why-this-design)
 - [Contributing](#contributing)
-- [License](#license)
 
 ---
 
