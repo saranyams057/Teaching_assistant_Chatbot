@@ -92,8 +92,7 @@ def multimodal_rag_chain(question: str, top_k: int = 5):
             table_context.append(doc.page_content)
 
         elif modality == "image":
-            # page_content already contains image summary
-            # raw base64 stored in metadata OR page_content depending on your setup
+            # page_content already contains image summary 
             image_context.append(doc.metadata.get("raw_content", doc.page_content))
 
     # -----------------------------
