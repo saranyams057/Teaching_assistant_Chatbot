@@ -54,7 +54,7 @@ vectorstore = Chroma(
 retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 
 # ===============================
-# EMBEDDING PIPELINE (RUN ONCE)
+# EMBEDDING PIPELINE 
 # ===============================
 def run_embedding():
 
@@ -134,7 +134,7 @@ def run_embedding():
                     print(f"🖼 Added image → {os.path.basename(img_path)}")
 
     # ===============================
-    # SAVE CACHE (ONCE)
+    # SAVE CACHE 
     # ===============================
     with open(CACHE_FILE, "w", encoding="utf-8") as f:
         json.dump(cache, f, indent=2)
@@ -142,8 +142,7 @@ def run_embedding():
     print("\n✅ Embedding completed and cached permanently")
 
 
-# ===============================
-# RUN ONCE
+
 # ===============================
 if __name__ == "__main__":
     run_embedding()
