@@ -15,7 +15,6 @@ A **multimodal Retrieval-Augmented Generation (RAG) chatbot** that helps student
 - [Usage](#usage)
 - [Workflow / Pipeline Explanation](#workflow--pipeline-explanation)
 - [Configuration](#configuration)
-- [Limitations & Known Issues](#limitations--known-issues)
 - [Future Improvements](#future-improvements)
 - [Why This Design?](#why-this-design)
 - [Contributing](#contributing)
@@ -290,7 +289,6 @@ rag_bot.py → Multimodal RAG logic for querying
 
 - Multi-language support
 
-- Advanced image reasoning with OCR
 
 ## 💡 Why This Design?
 
